@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  node-app:
+    build: .
+    container_name: attendance-api
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo-db:27017/attendance
+    depends_on:
+      - mongo-db
+    networks:
+      - attendance-net
+
+  mongo-db:
+    image: mongo:6.0
+    container_name: attendance-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - attendance-net
+
+volumes:
+  mongo_data:
+
+networks:
+  attendance-net:
+
